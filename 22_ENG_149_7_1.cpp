@@ -1,9 +1,11 @@
 #include <iostream>
+#include <cmath>
 using namespace std;
 
 float mean(int* table, int size);
 float median(int* table, int size);
 void mode(int* table, int size);
+void stdDeviationAndVariance(int* table, int size);
 
 float mean(int* table, int size) {
 	float sum = 0;
@@ -102,6 +104,25 @@ void mode(int* table, int size) {
     delete[] temp;
 }
 
+void stdDeviationAndVariance(int* table, int size) {
+    float sum=0,variance = 0;
+
+    for (int i = 0; i < size; i++) {
+        sum += *(table+i);
+    }
+
+    float mean = sum / size;
+    
+    for (int i = 0; i < size; i++) {
+        variance += pow(*(table+i) - mean, 2);
+    }
+
+    cout << "Variance\t:" << variance / size << endl;
+
+    cout << "Standard Deviation\t:" << sqrt(variance / size) << endl;
+
+}
+
 
 int main() {
     while (true) {
@@ -122,9 +143,20 @@ int main() {
         cout << "Mean\t:" << mean(table, numberOfSt) << endl;
         cout << "Median\t:" << median(table, numberOfSt) << endl;
         mode(table, numberOfSt);
-        
-        
+        stdDeviationAndVariance(table, numberOfSt);
+
         delete[] table;
+
+        cout << "-------------------------------------------" << endl;
+
+        cout << "Do you want to continue(y/n)? ";
+
+        char choice;
+        cin >> choice;
+
+        if (tolower(choice) == 'n') {
+			break;
+		}
     }
     
     return 0;
